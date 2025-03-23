@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from prophet import Prophet
 import logging
 logging.getLogger('cmdstanpy').setLevel(logging.WARNING)
-
+from scipy.signal import savgol_filter
 
 data = pd.read_csv('system_usage.csv')
 frame = pd.DataFrame(data)
@@ -50,6 +50,7 @@ ax2.legend(loc="upper left")
 data_to={}
 for process in groupDataFrame['ProcessName'].unique():
     subsets=groupDataFrame[groupDataFrame["ProcessName"]==process]
+    subsets.loc[:,'Memory'] = savgol_filter(subsets['Memory'], 11, 3).round().astype('int64')
     subsets=subsets.rename(columns={'Date':'ds','Memory':'y'})
     data_to[process]=subsets
 
@@ -66,7 +67,7 @@ for i, (process,subset) in enumerate(data_to.items()):
         model= Prophet()
         model.fit(subset)
 
-        future = model.make_future_dataframe(periods=300)
+        future = model.make_future_dataframe(periods=30)
         forecast=model.predict(future)
         plt.plot(forecast['ds'], forecast['yhat'], color=colors[i], label=process)
 
