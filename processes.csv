@@ -1,0 +1,6 @@
+Date,PID,ProcessName,Memory,Usage,CPU 
+2025-03-18,2500,gnome-shell, 169708 kB,3.00
+2025-03-18,127871,firefox, 481600 kB,2.00
+2025-03-18,2500,gnome-shell, 170032 kB,2.00
+2025-03-18,127871,firefox, 492264 kB,2.00
+2025-03-18,127871,firefox, 492392 kB,3.00
